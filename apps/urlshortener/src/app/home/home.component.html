@@ -14,7 +14,7 @@
               placeholder="Enter URL here..."
               (input)="updateUrl($event)"
               [ngClass]="{ redtext: !isUrlCorrect(url) }"
-              (keyup.enter)="shortify()"
+              (keyup.enter)="isUrlCorrect(url) && shortify()"
             />
             <button
               class="ui icon primary button"
