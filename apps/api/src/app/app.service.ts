@@ -26,6 +26,7 @@ export class AppService {
       const newentry: Url = {
         shorturl: this.calculateShortUrl(url),
         fullurl: url,
+        count: 1,
       };
       this.urlRepository.insert(newentry);
       // TODO: check that transaction succeed
