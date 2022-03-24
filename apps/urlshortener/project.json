@@ -19,8 +19,7 @@
           "apps/urlshortener/src/assets"
         ],
         "styles": ["apps/urlshortener/src/styles.scss"],
-        "scripts": [],
-        "generatePackageJson": true
+        "scripts": []
       },
       "configurations": {
         "production": {
