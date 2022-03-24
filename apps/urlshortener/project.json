@@ -1,0 +1,97 @@
+{
+  "projectType": "application",
+  "root": "apps/urlshortener",
+  "sourceRoot": "apps/urlshortener/src",
+  "prefix": "evolving",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/urlshortener",
+        "index": "apps/urlshortener/src/index.html",
+        "main": "apps/urlshortener/src/main.ts",
+        "polyfills": "apps/urlshortener/src/polyfills.ts",
+        "tsConfig": "apps/urlshortener/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/urlshortener/src/favicon.ico",
+          "apps/urlshortener/src/assets"
+        ],
+        "styles": ["apps/urlshortener/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/urlshortener/src/environments/environment.ts",
+              "with": "apps/urlshortener/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "urlshortener:build:production"
+        },
+        "development": {
+          "browserTarget": "urlshortener:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/urlshortener/proxy.conf.json"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "urlshortener:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/urlshortener/src/**/*.ts",
+          "apps/urlshortener/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/urlshortener"],
+      "options": {
+        "jestConfig": "apps/urlshortener/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

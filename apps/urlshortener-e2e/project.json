@@ -1,0 +1,28 @@
+{
+  "root": "apps/urlshortener-e2e",
+  "sourceRoot": "apps/urlshortener-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/urlshortener-e2e/cypress.json",
+        "devServerTarget": "urlshortener:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "urlshortener:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/urlshortener-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["urlshortener"]
+}

@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "projects": {
+    "api": "apps/api",
+    "api-interfaces": "libs/api-interfaces",
+    "urlshortener": "apps/urlshortener",
+    "urlshortener-e2e": "apps/urlshortener-e2e"
+  }
+}
