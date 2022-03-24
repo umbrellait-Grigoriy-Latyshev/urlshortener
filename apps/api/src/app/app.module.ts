@@ -15,7 +15,7 @@ import { Url } from './url.entity';
       password: '****',
       database: 'test',
       entities: [Url],
-      // synchronize: true, // remove in prod
+      synchronize: true, // remove in prod
     }),
     TypeOrmModule.forFeature([Url])
   ],

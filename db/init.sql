@@ -1,2 +1,9 @@
 create database test;
-GRANT ALL PRIVILEGES ON DATABASE test TO postgres;
+
+-- create table "url" (
+--     shorturl TEXT,
+--     fullurl TEXT,
+--     count INTEGER
+-- );
+
+-- GRANT ALL PRIVILEGES ON DATABASE test TO postgres;
