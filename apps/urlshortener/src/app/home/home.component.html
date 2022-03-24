@@ -1,0 +1,36 @@
+<div class="ui one column stackable center aligned page grid">
+  <div class="ui column twelve wide">
+    <div class="ui placeholder segment">
+      <div class="ui column">
+        <div class="ui icon header">
+          <i class="ui search icon"></i>
+          Shortify URL
+        </div>
+
+        <div class="field">
+          <div class="ui input">
+            <input
+              type="text"
+              placeholder="Enter URL here..."
+              (input)="updateUrl($event)"
+              [ngClass]="{ redtext: !isUrlCorrect(url) }"
+              (keyup.enter)="shortify()"
+            />
+            <button
+              class="ui icon primary button"
+              [ngClass]="{ disabled: !isUrlCorrect(url) }"
+              (click)="shortify()"
+            >
+              <i class="angle double right icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="updated" class="ui segment">
+
+          <a [href]="shorturl">http://localhost:4200/{{shorturl}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

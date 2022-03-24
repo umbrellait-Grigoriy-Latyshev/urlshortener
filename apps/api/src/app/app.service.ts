@@ -4,6 +4,6 @@ import { Message } from '@evolving/api-interfaces';
 @Injectable()
 export class AppService {
   getData(): Message {
-    return { message: 'Welcome to api!' };
+    return { url: 'Welcome to api!' };
   }
 }

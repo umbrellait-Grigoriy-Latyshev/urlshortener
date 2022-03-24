@@ -18,7 +18,7 @@
           "apps/urlshortener/src/favicon.ico",
           "apps/urlshortener/src/assets"
         ],
-        "styles": ["apps/urlshortener/src/styles.scss"],
+        "styles": ["apps/urlshortener/src/styles.scss", "node_modules/fomantic-ui-css/semantic.css"],
         "scripts": []
       },
       "configurations": {
