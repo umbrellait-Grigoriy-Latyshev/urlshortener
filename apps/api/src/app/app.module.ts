@@ -17,7 +17,7 @@ import { Url } from './url.entity';
       entities: [Url],
       synchronize: true, // remove in prod
     }),
-    TypeOrmModule.forFeature([Url])
+    TypeOrmModule.forFeature([Url]),
   ],
   controllers: [AppController],
   providers: [AppService],
