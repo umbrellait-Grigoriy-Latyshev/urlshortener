@@ -9,12 +9,14 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Post('short')
-  getShortUrl(@Body() params: Message): Message {
-    return { url: params.url };
+  async getShortUrl(@Body() params: Message): Promise<Message> {
+    let url = await this.appService.getShortUrl(params.url);
+    return { url: url };
   }
 
   @Get('long/:url')
-  getLongUrl(@Param() params): Message {
-    return { url: params.url };
+  async getLongUrl(@Param() params): Promise<Message> {
+    let url = await this.appService.getFullUrl(params.url);
+    return { url: url };
   }
 }
