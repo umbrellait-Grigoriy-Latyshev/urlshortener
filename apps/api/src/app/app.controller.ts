@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
 import { Message } from '@evolving/api-interfaces';
 
@@ -8,8 +8,8 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('short/:url')
-  getShortUrl(@Param() params): Message {
+  @Post('short')
+  getShortUrl(@Body() params: Message): Message {
     return { url: params.url };
   }
 

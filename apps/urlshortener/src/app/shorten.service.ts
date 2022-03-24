@@ -10,13 +10,13 @@ import { Message } from '@evolving/api-interfaces';
 export class ShortenService {
   constructor(private httpClient: HttpClient) {}
 
-  getShortURL(url: string): Observable<string> {
+  getShortURL(fullurl: string): Observable<string> {
     return this.httpClient
-      .get<Message>(`/api/short/${encodeURI(url)}`)
+      .post<Message>(`/api/short`, {url: fullurl})
       .pipe(map((e) => e.url));
   }
 
-  getFillURL(shorturl: string): Observable<string> {
+  getFullURL(shorturl: string): Observable<string> {
     return this.httpClient
       .get<Message>(`/api/long/${encodeURI(shorturl)}`)
       .pipe(map((e) => e.url));
