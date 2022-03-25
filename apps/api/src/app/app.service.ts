@@ -11,28 +11,32 @@ export class AppService {
     private urlRepository: Repository<Url>
   ) {}
 
-  private calculateShortUrl(str: string): string {
+  private sha256(str: string): string {
     const hash = createHmac('sha256', str)
-      .update('I love cupcakes')
+      .update('I like Umbrella')
       .digest('hex');
     return hash;
   }
 
+  private getRandomHash(maxlen: number): string {
+    maxlen = maxlen < 0 ? -maxlen : maxlen;
+    maxlen = maxlen < 3 ? 3 : maxlen;
+    return this.sha256(Date.now().toString()).substring(0, maxlen);
+  }
+
   async getShortUrl(url: string, suggested?: string): Promise<string> {
-    // check suggested url
-    let row = await this.urlRepository.findOne({
-      where: { shorturl: suggested },
-    });
-    if (row) return row.shorturl;
-    // check calculated url
-    const calcShortUrl = this.calculateShortUrl(url);
-    row = await this.urlRepository.findOne({
-      where: { shorturl: calcShortUrl },
-    });
-    if (row) return row.shorturl;
-    // if not found -- create and return new
-    const shorturl = suggested ? suggested : calcShortUrl;
-    const newentry: Url = new Url(shorturl, url);
+    let row: Url;
+    let _hash: string =
+      suggested === undefined ? this.getRandomHash(6) : suggested;
+    let _hash2: string = _hash;
+    do {
+      _hash = _hash2;
+      row = await this.urlRepository.findOne({
+        where: { shorturl: _hash },
+      });
+      _hash2 = this.getRandomHash(6);
+    } while (row);
+    const newentry: Url = new Url(_hash, url);
     await this.urlRepository.insert(newentry);
     return newentry.shorturl;
   }

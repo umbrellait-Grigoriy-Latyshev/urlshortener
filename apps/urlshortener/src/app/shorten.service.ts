@@ -15,6 +15,7 @@ export class ShortenService {
   constructor(private httpClient: HttpClient) {}
 
   getShortURL(fullurl: string, suggested?: string): Observable<URLMessage> {
+    suggested = suggested?.length === 0 ? undefined : suggested;
     return this.httpClient.post<URLMessage>(`/api/short`, {
       url: fullurl,
       suggested: suggested,

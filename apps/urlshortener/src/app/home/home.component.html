@@ -16,13 +16,12 @@
 
         <input matInput placeholder="Url" type="url" formControlName="url" />
       </mat-form-field>
-
       <mat-form-field *ngIf="isToggled()" class="full-width" appearance="fill">
         <mat-label>Alias</mat-label>
         <mat-error *ngIf="formGroup.get('shorturl')?.invalid"
           >Short url already taken</mat-error
         >
-        <input matInput placeholder="" type="url" formControlName="shorturl" />
+        <input matInput placeholder="" type="text" formControlName="shorturl" />
       </mat-form-field>
 
       <button
@@ -40,8 +39,8 @@
 
   <a
     class="redirectlink"
-    *ngIf="updated"
-    [href]="formGroup.get('shorturl')?.value"
-    >{{ formGroup.get('shorturl')?.value }}</a
+    *ngIf="updated && getShortU().length !== 0"
+    [href]="getShortU()"
+    >{{ getShortU() }}</a
   >
 </mat-card>

@@ -23,11 +23,9 @@ export class HomeComponent implements OnInit {
     return isURL(control.value) ? null : { invalidUrl: true };
   };
 
-  private shortUrlValidator = (toggled: boolean) => {
-    return (control: AbstractControl) => {
-      const valid = toggled && control.value.length !== 0;
-      return valid ? null : { invalidUrl: true };
-    };
+  private shortUrlValidator = (control: AbstractControl) => {
+    const valid = control.value.length !== 0;
+    return valid ? null : { invalidUrl: true };
   };
 
   formGroup = new FormGroup({
@@ -46,14 +44,18 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     // watch short url validator depends on toggle
     this.formGroup.get('toggle')?.valueChanges.subscribe((value) => {
-      this.formGroup
-        .get('shorturl')
-        ?.setValidators(this.shortUrlValidator(value));
+      let item = this.formGroup.get('shorturl');
+      if (!value) {
+        item?.setValue('');
+        item?.setValidators(null);
+        item?.reset();
+      } else item?.setValidators(this.shortUrlValidator);
     });
 
     this.formGroup
       .get('shorturl')
       ?.valueChanges.pipe(
+        filter((value) => value.length !== 0),
         mergeMap((value) => this.shortService.isAvailable(value)),
         filter((isAvailable) => !isAvailable),
         tap((_) => {
@@ -61,6 +63,11 @@ export class HomeComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  getShortU(): string {
+    if (!this.formGroup.get('shorturl')?.value) return '';
+    return this.getUrlFromShort(this.formGroup.get('shorturl')?.value);
   }
 
   isToggled(): boolean {
@@ -76,12 +83,11 @@ export class HomeComponent implements OnInit {
     this.shortService
       .getShortURL(
         this.formGroup.get('url')?.value,
-        this.formGroup.get('shorturl')?.value
+        this.formGroup.get('shorturl')?.value || ''
       )
       .subscribe((message) => {
-        this.formGroup
-          .get('shorturl')
-          ?.setValue(this.getUrlFromShort(message.url));
+        if (message.success)
+          this.formGroup.get('shorturl')?.setValue(message.url);
         this.updated = true;
       });
   }
