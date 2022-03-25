@@ -1,6 +1,13 @@
 .form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+}
+
+section {
+  min-width: 50%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -11,9 +18,8 @@
   margin-right: 10px;
 }
 
-.w50 {
-  width: 50%;
-  margin-right: 10px;
+div.mat-form-field-wrapper {
+  width: 100% !important;
 }
 
 a.redirectlink {

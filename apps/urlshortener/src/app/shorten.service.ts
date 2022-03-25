@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { Message } from '@evolving/api-interfaces';
 
@@ -18,13 +18,10 @@ export class ShortenService {
     return this.httpClient.get<Message>(`/api/long/${encodeURI(shorturl)}`);
   }
 
-  isValid(shorturl: string): Observable<boolean> {
-    // TODO: implement
-    return of(true);
-  }
-
   isAvailable(shorturl: string): Observable<boolean> {
     // TODO: implement
-    return of(true);
+    return this.httpClient
+      .get<Message>(`/api/available/${shorturl}`)
+      .pipe(map((e) => e.success));
   }
 }

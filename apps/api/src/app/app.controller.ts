@@ -20,4 +20,10 @@ export class AppController {
     if (url.length === 0) return { url: '', success: false };
     return { url: url, success: true };
   }
+
+  @Get('/available/:url')
+  async getShortUrlAvailability(@Param() params): Promise<Message> {
+    let available = await this.appService.isAvailable(params.url);
+    return { url: '', success: available };
+  }
 }

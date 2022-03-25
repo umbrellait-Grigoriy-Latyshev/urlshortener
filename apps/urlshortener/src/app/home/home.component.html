@@ -1,26 +1,41 @@
 <mat-card>
   <form class="form" [formGroup]="formGroup" (ngSubmit)="shortify()">
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>URL to shortify</mat-label>
-      <mat-error *ngIf="!formGroup.valid">URL is not valid</mat-error>
+    <section>
+      <mat-slide-toggle formControlName="toggle"
+        >Suggest short URL</mat-slide-toggle
+      >
+    </section>
 
-      <input matInput placeholder="Url" type="url" formControlName="url" />
-    </mat-form-field>
+    <section>
+      <h4></h4>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>URL to shortify</mat-label>
+        <mat-error *ngIf="formGroup.get('url')?.invalid"
+          >URL is not valid</mat-error
+        >
 
-    <mat-form-field class="w50" appearance="fill">
-      <mat-label>Shorten link</mat-label>
-      <input matInput placeholder="" type="url" formControlName="shorturl" />
-    </mat-form-field>
+        <input matInput placeholder="Url" type="url" formControlName="url" />
+      </mat-form-field>
 
-    <button
-      mat-raised-button
-      type="submit"
-      color="primary"
-      appearance="fill"
-      [disabled]="!formGroup.valid"
-    >
-      Shortify
-    </button>
+      <mat-form-field *ngIf="isToggled()" class="full-width" appearance="fill">
+        <mat-label>Alias</mat-label>
+        <mat-error *ngIf="formGroup.get('shorturl')?.invalid"
+          >Short url already taken</mat-error
+        >
+        <input matInput placeholder="" type="url" formControlName="shorturl" />
+      </mat-form-field>
+
+      <button
+        class="full-width"
+        mat-raised-button
+        type="submit"
+        color="primary"
+        appearance="fill"
+        [disabled]="!formGroup.valid"
+      >
+        Shortify
+      </button>
+    </section>
   </form>
 
   <a
