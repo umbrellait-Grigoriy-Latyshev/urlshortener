@@ -19,10 +19,12 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { RedirectComponent } from './redirect/redirect.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'r/:shorturl', component: RedirectComponent },
+  { path: 'error', component: ErrorComponent },
 ];
 
 @NgModule({
@@ -32,6 +34,7 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     RedirectComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,

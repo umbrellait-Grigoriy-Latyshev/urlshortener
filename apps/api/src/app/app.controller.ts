@@ -11,12 +11,13 @@ export class AppController {
   @Post('short')
   async getShortUrl(@Body() params: Message): Promise<Message> {
     let url = await this.appService.getShortUrl(params.url);
-    return { url: url };
+    return { url: url, success: true };
   }
 
   @Get('long/:url')
   async getLongUrl(@Param() params): Promise<Message> {
     let url = await this.appService.getFullUrl(params.url);
-    return { url: url };
+    if (url.length === 0) return { url: '', success: false };
+    return { url: url, success: true };
   }
 }

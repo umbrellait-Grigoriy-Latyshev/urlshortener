@@ -47,10 +47,10 @@ export class HomeComponent implements OnInit {
     this.updated = false;
     this.shortService
       .getShortURL(this.formGroup.get('url')?.value)
-      .subscribe((shortUrl) => {
+      .subscribe((message) => {
         this.formGroup
           .get('shorturl')
-          ?.setValue(this.getUrlFromShort(shortUrl));
+          ?.setValue(this.getUrlFromShort(message.url));
         this.updated = true;
       });
   }
