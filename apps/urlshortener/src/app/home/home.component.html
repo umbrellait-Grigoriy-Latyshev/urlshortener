@@ -1,36 +1,24 @@
-<div class="ui one column stackable center aligned page grid">
-  <div class="ui column twelve wide">
-    <div class="ui placeholder segment">
-      <div class="ui column">
-        <div class="ui icon header">
-          <i class="ui search icon"></i>
-          Shortify URL
-        </div>
+<mat-card>
+  <form class="form" [formGroup]="formGroup" (ngSubmit)="shortify()">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>URL to shortify</mat-label>
+      <mat-error *ngIf="!formGroup.valid">URL is not valid</mat-error>
 
-        <div class="field">
-          <div class="ui input">
-            <input
-              type="text"
-              placeholder="Enter URL here..."
-              (input)="updateUrl($event)"
-              [ngClass]="{ redtext: !isUrlCorrect(url) }"
-              (keyup.enter)="isUrlCorrect(url) && shortify()"
-            />
-            <button
-              class="ui icon primary button"
-              [ngClass]="{ disabled: !isUrlCorrect(url) }"
-              (click)="shortify()"
-            >
-              <i class="angle double right icon"></i>
-            </button>
-          </div>
-        </div>
+      <input matInput placeholder="Url" type="url" formControlName="url" />
+    </mat-form-field>
 
-        <div *ngIf="updated" class="ui segment">
+    <button
+      mat-raised-button
+      type="submit"
+      color="primary"
+      appearance="fill"
+      [disabled]="!formGroup.valid"
+    >
+      Shortify
+    </button>
 
-          <a [href]="shorturl">http://localhost:4200/{{shorturl}}</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    <button *ngIf="updated" mat-flat-button class="link">
+      {{ shorturl }}
+    </button>
+  </form>
+</mat-card>
