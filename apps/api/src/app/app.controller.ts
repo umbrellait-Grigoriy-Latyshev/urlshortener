@@ -1,6 +1,10 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
-import { CreateShortURLMessage, StatusMessage, URLMessage } from '@evolving/api-interfaces';
+import {
+  CreateShortURLMessage,
+  StatusMessage,
+  URLMessage,
+} from '@evolving/api-interfaces';
 
 import { AppService } from './app.service';
 
@@ -9,7 +13,9 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Post('short')
-  async getShortUrl(@Body() params: CreateShortURLMessage): Promise<URLMessage> {
+  async getShortUrl(
+    @Body() params: CreateShortURLMessage
+  ): Promise<URLMessage> {
     let url = await this.appService.getShortUrl(params.url, params.suggested);
     return { url: url, success: true };
   }
@@ -24,6 +30,6 @@ export class AppController {
   @Get('/available/:url')
   async getShortUrlAvailability(@Param() params): Promise<StatusMessage> {
     let available = await this.appService.isAvailable(params.url);
-    return {success: available };
+    return { success: available };
   }
 }
