@@ -18,33 +18,33 @@ export class AppService {
     return hash;
   }
 
-  getShortUrl(url: string): Promise<string> {
-    return this.urlRepository.findOne(url).then((pair) => {
-      if (pair !== undefined) {
-        return pair.shorturl;
-      }
-      const newentry: Url = {
-        shorturl: this.calculateShortUrl(url),
-        fullurl: url,
-        count: 1,
-      };
-      this.urlRepository.insert(newentry);
-      // TODO: check that transaction succeed
-      return newentry.shorturl;
+  async getShortUrl(url: string): Promise<string> {
+    const calcShortUrl = this.calculateShortUrl(url);
+    let row = await this.urlRepository.findOne({
+      where: { shorturl: calcShortUrl },
     });
+    if (row) return row.shorturl;
+    const newentry: Url = new Url(calcShortUrl, url);
+    await this.urlRepository.insert(newentry);
+    return newentry.shorturl;
   }
 
-  getFullUrl(url: string): Promise<string> {
-    return this.urlRepository.findOne(url).then((pair) => pair.fullurl);
+  async getFullUrl(url: string): Promise<string> {
+    let row = await this.urlRepository.findOne({ where: { shorturl: url } });
+    if (!row) return ''; // TODO: error propagation
+    row.count++;
+    await this.urlRepository.save(row);
+    return row.fullurl;
   }
 
-  isValid(shorturl: string): Promise<boolean> {
-    return this.urlRepository.findOne(shorturl).then((e) => {
-      return e === undefined;
+  async isValid(shorturl: string): Promise<boolean> {
+    let row = await this.urlRepository.findOne({
+      where: { shorturl: shorturl },
     });
+    return row !== undefined;
   }
 
-  isAvailable(shorturl: string): Promise<boolean> {
-    return this.isValid(shorturl).then((e) => !e);
+  async isAvailable(shorturl: string): Promise<boolean> {
+    return !(await this.isValid(shorturl));
   }
 }
