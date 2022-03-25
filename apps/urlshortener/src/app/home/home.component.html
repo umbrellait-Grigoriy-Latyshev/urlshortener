@@ -7,6 +7,11 @@
       <input matInput placeholder="Url" type="url" formControlName="url" />
     </mat-form-field>
 
+    <mat-form-field class="w50" appearance="fill">
+      <mat-label>Shorten link</mat-label>
+      <input matInput placeholder="" type="url" formControlName="shorturl" />
+    </mat-form-field>
+
     <button
       mat-raised-button
       type="submit"
@@ -16,9 +21,12 @@
     >
       Shortify
     </button>
-
-    <button *ngIf="updated" mat-flat-button class="link">
-      {{ shorturl }}
-    </button>
   </form>
+
+  <a
+    class="redirectlink"
+    *ngIf="updated"
+    [href]="formGroup.get('shorturl')?.value"
+    >{{ formGroup.get('shorturl')?.value }}</a
+  >
 </mat-card>

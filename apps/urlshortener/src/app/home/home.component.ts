@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ShortenService } from '../shorten.service';
-
 import isURL from 'validator/lib/isURL';
-import { Observable } from 'rxjs';
+
 import {
   AbstractControl,
   FormControl,
   FormGroup,
   ValidatorFn,
 } from '@angular/forms';
+
 import { Validators } from '@angular/forms';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'evolving-home',
@@ -23,21 +24,34 @@ export class HomeComponent implements OnInit {
 
   formGroup = new FormGroup({
     url: new FormControl('', [Validators.required, this.urlValidator]),
+    shorturl: new FormControl(
+      { value: '', disabled: true },
+      Validators.required
+    ),
   });
-
-  shorturl: string = '';
 
   updated = false;
 
-  constructor(private shortService: ShortenService) {}
+  constructor(
+    private shortService: ShortenService,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   ngOnInit(): void {}
 
+  getUrlFromShort(short: string): string {
+    return `${this.document.location.origin}/r/${short}`;
+  }
+
   shortify(): void {
     this.updated = false;
-    this.shortService.getShortURL(this.formGroup.get("url")?.value).subscribe((shortUrl) => {
-      this.shorturl = shortUrl;
-      this.updated = true;
-    });
+    this.shortService
+      .getShortURL(this.formGroup.get('url')?.value)
+      .subscribe((shortUrl) => {
+        this.formGroup
+          .get('shorturl')
+          ?.setValue(this.getUrlFromShort(shortUrl));
+        this.updated = true;
+      });
   }
 }

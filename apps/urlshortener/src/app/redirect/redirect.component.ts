@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { ShortenService } from '../shorten.service';
@@ -12,17 +13,21 @@ export class RedirectComponent implements OnInit {
   url: string = '';
   constructor(
     private route: ActivatedRoute,
-    private shortenService: ShortenService
+    private shortenService: ShortenService,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
-      const shorturl = paramMap.get('shorturl') || "";
+      const shorturl = paramMap.get('shorturl') || '';
       if (shorturl.length !== 0) {
         this.shortenService.getFullURL(shorturl).subscribe((fullurl) => {
+          // prepend http as base (hope it will redirects to https)
+          if (!fullurl.includes('http')) fullurl = `http://${fullurl}`;
           this.url = fullurl;
+
           setTimeout(() => {
-            window.location.href = this.url;
+            this.document.location.href = this.url;
           }, 3000);
         });
       }
