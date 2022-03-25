@@ -2,7 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
-import { Message } from '@evolving/api-interfaces';
+import {
+  URLMessage,
+  StatusMessage,
+  CreateShortURLMessage,
+} from '@evolving/api-interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -10,18 +14,20 @@ import { Message } from '@evolving/api-interfaces';
 export class ShortenService {
   constructor(private httpClient: HttpClient) {}
 
-  getShortURL(fullurl: string): Observable<Message> {
-    return this.httpClient.post<Message>(`/api/short`, { url: fullurl });
+  getShortURL(fullurl: string, suggested?: string): Observable<URLMessage> {
+    return this.httpClient.post<URLMessage>(`/api/short`, {
+      url: fullurl,
+      suggested: suggested,
+    } as CreateShortURLMessage);
   }
 
-  getFullURL(shorturl: string): Observable<Message> {
-    return this.httpClient.get<Message>(`/api/long/${encodeURI(shorturl)}`);
+  getFullURL(shorturl: string): Observable<URLMessage> {
+    return this.httpClient.get<URLMessage>(`/api/long/${encodeURI(shorturl)}`);
   }
 
   isAvailable(shorturl: string): Observable<boolean> {
-    // TODO: implement
     return this.httpClient
-      .get<Message>(`/api/available/${shorturl}`)
+      .get<StatusMessage>(`/api/available/${shorturl}`)
       .pipe(map((e) => e.success));
   }
 }

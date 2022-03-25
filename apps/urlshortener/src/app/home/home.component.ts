@@ -74,7 +74,10 @@ export class HomeComponent implements OnInit {
   shortify(): void {
     this.updated = false;
     this.shortService
-      .getShortURL(this.formGroup.get('url')?.value)
+      .getShortURL(
+        this.formGroup.get('url')?.value,
+        this.formGroup.get('shorturl')?.value
+      )
       .subscribe((message) => {
         this.formGroup
           .get('shorturl')

@@ -18,13 +18,21 @@ export class AppService {
     return hash;
   }
 
-  async getShortUrl(url: string): Promise<string> {
-    const calcShortUrl = this.calculateShortUrl(url);
+  async getShortUrl(url: string, suggested?: string): Promise<string> {
+    // check suggested url
     let row = await this.urlRepository.findOne({
+      where: { shorturl: suggested },
+    });
+    if (row) return row.shorturl;
+    // check calculated url
+    const calcShortUrl = this.calculateShortUrl(url);
+    row = await this.urlRepository.findOne({
       where: { shorturl: calcShortUrl },
     });
     if (row) return row.shorturl;
-    const newentry: Url = new Url(calcShortUrl, url);
+    // if not found -- create and return new
+    const shorturl = suggested ? suggested : calcShortUrl;
+    const newentry: Url = new Url(shorturl, url);
     await this.urlRepository.insert(newentry);
     return newentry.shorturl;
   }
