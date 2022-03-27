@@ -6,3 +6,4 @@ postgres
 .angular
 docker-compose.*
 .dockerignore
+db

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, CreateDateColumn } from 'typeorm';
 
 @Entity({ schema: 'public', name: 'url' })
 export class Url {
@@ -11,13 +11,13 @@ export class Url {
   @Column()
   count: number;
 
-  @Column()
-  day: number;
+  @CreateDateColumn()
+  createdAt: Date;
 
   constructor(shorturl: string, fullurl: string) {
     this.shorturl = shorturl;
     this.fullurl = fullurl;
     this.count = 1;
-    this.day = new Date(Date.now()).getDate();
+    this.createdAt = new Date(Date.now());
   }
 }
