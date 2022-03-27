@@ -1,0 +1,8 @@
+**/node_modules
+Dockerfile
+dist
+postgres
+.vscode
+.angular
+docker-compose.*
+.dockerignore
