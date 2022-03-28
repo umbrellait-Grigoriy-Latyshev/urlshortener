@@ -11,15 +11,16 @@ services:
       - .:/workspace:cached
     depends_on:
       - postgres
+    env_file:
+      - ./.env
     command: /bin/sh -c "while sleep 10; do date; done"
   postgres:
     container_name: postgres
     image: postgres:14-alpine
     environment:
-      POSTGRES_USER: ****
-      POSTGRES_PASSWORD: ****
       CONTAINER_NAME: postgres
-      PGDATA: /data/postgres
+    env_file:
+     - ./.env
     volumes:
        - ./postgres:/data/postgres
        - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql

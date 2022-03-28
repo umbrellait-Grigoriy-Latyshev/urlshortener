@@ -13,6 +13,8 @@ services:
       - 3333
     depends_on:
       - postgres
+    env_file:
+      - ./.env
   app:
     build:
         context: .
@@ -27,10 +29,9 @@ services:
     container_name: postgres_container
     image: postgres:14-alpine
     environment:
-      POSTGRES_USER: ****
-      POSTGRES_PASSWORD: ****
       CONTAINER_NAME: postgres
-      PGDATA: /data/postgres
+    env_file:
+      - ./.env
     volumes:
        - ./postgres:/data/postgres
        - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
