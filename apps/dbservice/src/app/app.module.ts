@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ConsoleModule } from 'nestjs-console';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Url } from '@evolving/api-interfaces';
-import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [
+  imports: [ConsoleModule,
     ConfigModule.forRoot({
       envFilePath: '../../../.env',
     }),

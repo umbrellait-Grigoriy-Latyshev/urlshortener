@@ -3,6 +3,7 @@
   "projects": {
     "api": "apps/api",
     "api-interfaces": "libs/api-interfaces",
+    "dbservice": "apps/dbservice",
     "urlshortener": "apps/urlshortener",
     "urlshortener-e2e": "apps/urlshortener-e2e"
   }

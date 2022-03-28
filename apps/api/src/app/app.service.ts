@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { createHmac } from 'crypto';
 import { Repository } from 'typeorm';
-import { Url } from './url.entity';
+import { Url } from '@evolving/api-interfaces';
 
 import {Logger} from '@nestjs/common';
 
