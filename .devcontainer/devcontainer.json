@@ -27,7 +27,8 @@
 		"dbaeumer.vscode-eslint",
 		"ms-vscode.vscode-typescript-next",
 		"nrwl.angular-console",
-		"SimonSiefke.prettier-vscode"
+		"SimonSiefke.prettier-vscode",
+		"ms-azuretools.vscode-docker"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
