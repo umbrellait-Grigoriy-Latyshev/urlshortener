@@ -1,0 +1,29 @@
+version: '3'
+services:
+  dev:
+    container_name: dev
+    image: mcr.microsoft.com/vscode/devcontainers/typescript-node:0-16
+    expose:
+      - 4200
+    ports:
+      - "4200:4200"
+    volumes:
+      - .:/workspace:cached
+    depends_on:
+      - postgres
+    env_file:
+      - ./.env
+    command: /bin/sh -c "while sleep 10; do date; done"
+  postgres:
+    container_name: postgres
+    image: postgres:14-alpine
+    environment:
+      CONTAINER_NAME: postgres
+    env_file:
+     - ./.env
+    volumes:
+       - ./postgres:/data/postgres
+       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
