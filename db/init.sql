@@ -53,24 +53,6 @@ CREATE TABLE public.url (
 
 ALTER TABLE public.url OWNER TO postgres;
 
---
--- Data for Name: typeorm_metadata; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.typeorm_metadata (type, database, schema, "table", name, value) FROM stdin;
-\.
-
-
---
--- Data for Name: url; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.url (shorturl, fullurl, count, "createdAt") FROM stdin;
-2d5db3	ya.ru	2	2022-03-27 22:03:28.305
-476fbd	ya.ru	2	2022-03-27 22:05:52.61
-761b0f	ya.ru	2	2022-03-27 22:06:06.017
-\.
-
 
 --
 -- Name: url PK_86d1f9aa0f59aa7beacd4057841; Type: CONSTRAINT; Schema: public; Owner: postgres
