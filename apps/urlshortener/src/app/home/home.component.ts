@@ -15,23 +15,22 @@ import { DOCUMENT } from '@angular/common';
 import { filter, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
+
+// Validators
+// validate that url is valid
+const urlValidator: ValidatorFn = (control: AbstractControl) => {
+  return isURL(control.value) ? null : { invalidUrl: true };
+};
+
 @Component({
   selector: 'evolving-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  private urlValidator: ValidatorFn = (control: AbstractControl) => {
-    return isURL(control.value) ? null : { invalidUrl: true };
-  };
-
-  private shortUrlValidator = (control: AbstractControl) => {
-    const valid = control.value.length !== 0;
-    return valid ? null : { invalidUrl: true };
-  };
 
   formGroup = new FormGroup({
-    url: new FormControl('', [Validators.required, this.urlValidator]),
+    url: new FormControl('', [Validators.required, urlValidator]),
     shorturl: new FormControl(''),
     toggle: new FormControl(false),
   });
@@ -53,7 +52,7 @@ export class HomeComponent implements OnInit {
         item?.setValue('');
         item?.setValidators(null);
         item?.reset();
-      } else item?.setValidators(this.shortUrlValidator);
+      } else item?.setValidators(Validators.required);
     });
 
     this.formGroup
