@@ -48,10 +48,10 @@ export class HomeComponent implements OnInit {
     // watch short url validator depends on toggle
     this.formGroup.get('toggle')?.valueChanges.subscribe((value) => {
       const item = this.formGroup.get('shorturl');
+      item?.setValue('');
+      item?.reset();
       if (!value) {
-        item?.setValue('');
         item?.setValidators(null);
-        item?.reset();
       } else item?.setValidators(Validators.required);
     });
 
