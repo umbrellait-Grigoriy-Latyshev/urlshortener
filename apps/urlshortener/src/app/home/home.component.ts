@@ -39,12 +39,12 @@ export class HomeComponent implements OnInit {
   constructor(
     private shortService: ShortenService,
     @Inject(DOCUMENT) private document: Document
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // watch short url validator depends on toggle
     this.formGroup.get('toggle')?.valueChanges.subscribe((value) => {
-      let item = this.formGroup.get('shorturl');
+      const item = this.formGroup.get('shorturl');
       if (!value) {
         item?.setValue('');
         item?.setValidators(null);
@@ -63,6 +63,7 @@ export class HomeComponent implements OnInit {
         })
       )
       .subscribe();
+    this.formGroup.valueChanges.subscribe(_ => this.updated = false);
   }
 
   getShortU(): string {
