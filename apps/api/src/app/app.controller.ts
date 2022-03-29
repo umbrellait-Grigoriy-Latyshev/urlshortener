@@ -6,15 +6,33 @@ import {
   URLMessage,
 } from '@evolving/api-interfaces';
 
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+
 import { Logger } from '@nestjs/common';
 
 import { AppService } from './app.service';
 
+@ApiTags('/')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @Post('short')
+  @ApiOperation({ summary: 'Create short url' })
+  @ApiResponse({
+    status: 200, description: 'url created',
+    type: URLMessage,
+  })
+  @ApiBody({
+    type: CreateShortURLMessage
+  })
   async getShortUrl(
     @Body() params: CreateShortURLMessage
   ): Promise<URLMessage> {
@@ -23,7 +41,14 @@ export class AppController {
     return { url: url, success: url.length !== 0 };
   }
 
+
+
   @Get('long/:url')
+  @ApiOperation({ summary: 'Get full url' })
+  @ApiResponse({
+    status: 200, description: 'Return full url',
+    type: URLMessage
+  })
   async getLongUrl(@Param() params): Promise<URLMessage> {
     Logger.log(`Requested /long/${params.url}`);
     const url = await this.appService.getFullUrl(params.url);
@@ -31,7 +56,15 @@ export class AppController {
     return { url: url, success: true };
   }
 
+
+
   @Get('/available/:url')
+  @ApiOperation({ summary: 'Checks that short url available' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return boolean',
+    type: StatusMessage
+  })
   async getShortUrlAvailability(@Param() params): Promise<StatusMessage> {
     Logger.log(`Requested /available/${params.url}`);
     const available = await this.appService.isAvailable(params.url);
