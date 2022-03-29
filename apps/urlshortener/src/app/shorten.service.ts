@@ -16,10 +16,12 @@ export class ShortenService {
 
   getShortURL(fullurl: string, suggested?: string): Observable<URLMessage> {
     suggested = suggested?.length === 0 ? undefined : suggested;
-    return this.httpClient.post<URLMessage>(`/api/short`, {
-      url: fullurl,
-      suggested: suggested,
-    } as CreateShortURLMessage);
+    const body: CreateShortURLMessage = {
+      url: fullurl
+    };
+    if (suggested)
+      body.suggested = suggested;
+    return this.httpClient.post<URLMessage>(`/api/short`, body);
   }
 
   getFullURL(shorturl: string): Observable<URLMessage> {
