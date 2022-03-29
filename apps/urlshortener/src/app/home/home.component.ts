@@ -46,13 +46,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     // watch short url validator depends on toggle
-    this.formGroup.get('toggle')?.valueChanges.subscribe((value) => {
+    this.formGroup.get('toggle')?.valueChanges.subscribe((_) => {
       const item = this.formGroup.get('shorturl');
       item?.setValue('');
-      item?.reset();
-      if (!value) {
-        item?.setValidators(null);
-      } else item?.setValidators(Validators.required);
     });
 
     this.formGroup
