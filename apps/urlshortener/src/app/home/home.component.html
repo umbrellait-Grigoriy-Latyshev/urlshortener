@@ -37,10 +37,7 @@
     </section>
   </form>
 
-  <a
-    class="redirectlink"
-    *ngIf="updated && getShortU().length !== 0"
-    [routerLink]="getShortRoute()"
-    >{{ getShortU() }}</a
-  >
+  <section class="padded" *ngIf="updated && getShortU().length !== 0">
+    <a class="redirectlink" [routerLink]="getShortRoute()">{{ getShortU() }}</a>
+  </section>
 </mat-card>
