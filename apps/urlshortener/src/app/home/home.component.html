@@ -40,7 +40,7 @@
   <a
     class="redirectlink"
     *ngIf="updated && getShortU().length !== 0"
-    [href]="getShortU()"
+    [routerLink]="getShortRoute()"
     >{{ getShortU() }}</a
   >
 </mat-card>
