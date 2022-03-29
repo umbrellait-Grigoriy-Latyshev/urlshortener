@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { ShortenService } from '../shorten.service';
 
+const MAX_SEC = 3;
+
+
 @Component({
   selector: 'evolving-redirect',
   templateUrl: './redirect.component.html',
@@ -11,12 +14,13 @@ import { ShortenService } from '../shorten.service';
 })
 export class RedirectComponent implements OnInit {
   url: string = '';
+  seconds = MAX_SEC;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private shortenService: ShortenService,
     @Inject(DOCUMENT) private document: Document
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
@@ -34,7 +38,10 @@ export class RedirectComponent implements OnInit {
 
           setTimeout(() => {
             this.document.location.href = this.url;
-          }, 3000);
+          }, MAX_SEC * 1000);
+          setInterval(() => {
+            if (this.seconds > 0) this.seconds--;
+          }, 1000);
         });
       }
     });
