@@ -20,23 +20,21 @@ export class AppService {
     return hash;
   }
 
-  private getRandomHash(maxlen: number): string {
-    maxlen = maxlen < 0 ? -maxlen : maxlen;
-    maxlen = maxlen < 3 ? 3 : maxlen;
-    return this.sha256(Date.now().toString()).substring(0, maxlen);
+  private getRandomHash6(): string {
+    return this.sha256(Date.now().toString()).substring(0, 6);
   }
 
   async getShortUrl(url: string, suggested?: string): Promise<string> {
     let row: Url;
     let _hash: string =
-      suggested === undefined ? this.getRandomHash(6) : suggested;
+      suggested === undefined ? this.getRandomHash6() : suggested;
     let _hash2: string = _hash;
     do {
       _hash = _hash2;
       row = await this.urlRepository.findOne({
         where: { shorturl: _hash },
       });
-      _hash2 = this.getRandomHash(6);
+      _hash2 = this.getRandomHash6();
     } while (row);
     const newentry: Url = new Url(_hash, url);
     Logger.log(`Insert to db value ${JSON.stringify(newentry)}`);
