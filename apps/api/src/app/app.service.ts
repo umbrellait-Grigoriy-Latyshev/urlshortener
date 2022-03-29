@@ -4,14 +4,14 @@ import { createHmac } from 'crypto';
 import { Repository } from 'typeorm';
 import { Url } from '@evolving/api-interfaces';
 
-import {Logger} from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
   constructor(
     @InjectRepository(Url)
     private urlRepository: Repository<Url>
-  ) {}
+  ) { }
 
   private sha256(str: string): string {
     const hash = createHmac('sha256', str)
@@ -44,7 +44,7 @@ export class AppService {
 
   async getFullUrl(url: string): Promise<string> {
     const row = await this.urlRepository.findOne({ where: { shorturl: url } });
-    if (!row){
+    if (!row) {
       Logger.log(`Cannot find row for ${url} in db, return ''`);
       return '';
     }; // TODO: error propagation
