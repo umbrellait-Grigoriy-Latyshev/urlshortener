@@ -20,8 +20,6 @@ async function bootstrap() {
     .setTitle('UrlShortener')
     .setDescription('The UrlShortener API description')
     .setVersion('0.0')
-    .addTag('urls')
-    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);

@@ -11,7 +11,6 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Logger } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@ApiTags('/')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) { }
