@@ -24,21 +24,22 @@ export class AppService {
     return this.sha256(Date.now().toString()).substring(0, 6);
   }
 
-  async getShortUrl(url: string, suggested?: string): Promise<string> {
-    let row: Url;
-    let _hash: string =
-      suggested === undefined ? this.getRandomHash6() : suggested;
-    let _hash2: string = _hash;
-    do {
-      _hash = _hash2;
-      row = await this.urlRepository.findOne({
-        where: { shorturl: _hash },
-      });
-      _hash2 = this.getRandomHash6();
-    } while (row);
+  private async insertNewUrl(_hash: string, url: string): Promise<Url> {
     const newentry: Url = new Url(_hash, url);
     Logger.log(`Insert to db value ${JSON.stringify(newentry)}`);
     await this.urlRepository.insert(newentry);
+    return newentry;
+  }
+
+  async getShortUrl(url: string, suggested?: string): Promise<string> {
+    const _hash: string =
+      suggested === undefined ? this.getRandomHash6() : suggested;
+    // if row found -- return
+    const row = await this.urlRepository.findOne({
+      where: { shorturl: _hash },
+    });
+    if (row) return "";
+    const newentry = await this.insertNewUrl(_hash, url);
     return newentry.shorturl;
   }
 
