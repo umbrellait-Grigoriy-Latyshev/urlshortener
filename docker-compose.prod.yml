@@ -8,9 +8,9 @@ services:
       target: api
   app:
     build:
-        context: .
-        dockerfile: Dockerfile
-        target: app
+      context: .
+      dockerfile: Dockerfile
+      target: app
 
   crontab:
     build:
@@ -23,4 +23,3 @@ services:
       - postgres
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # - ./crontab:/opt/crontab
