@@ -54,14 +54,11 @@ export class AppService {
     return row.fullurl;
   }
 
-  async isValid(shorturl: string): Promise<boolean> {
+  async isAvailable(shorturl: string): Promise<boolean> {
     const row = await this.urlRepository.findOne({
       where: { shorturl: shorturl },
     });
-    return row !== undefined;
+    return row === undefined;
   }
 
-  async isAvailable(shorturl: string): Promise<boolean> {
-    return !(await this.isValid(shorturl));
-  }
 }
