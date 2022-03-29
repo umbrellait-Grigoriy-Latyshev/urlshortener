@@ -1,0 +1,7 @@
+[
+    {
+        "schedule": "0 0 */15 * *",
+        "command": "cd /project && node main.js clean 15",
+        "name": "database clean every 15 days"
+    }
+]

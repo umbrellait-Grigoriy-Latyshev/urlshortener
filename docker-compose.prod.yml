@@ -11,3 +11,16 @@ services:
         context: .
         dockerfile: Dockerfile
         target: app
+
+  crontab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: crontab
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - ./crontab:/opt/crontab

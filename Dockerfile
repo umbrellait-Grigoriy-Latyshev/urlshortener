@@ -13,3 +13,10 @@ COPY --from=base /project/dist/apps/api .
 RUN npm i --production
 RUN npm i pg
 CMD [ "node", "main.js" ]
+
+FROM willfarrell/crontab as crontab
+RUN apk update --no-cache && apk add nodejs npm
+COPY crontab/config.json /opt/crontab/
+# RUN mkdir /project
+COPY --from=base /project/dist/apps/dbservice /project
+RUN cd project && npm i --production && npm i pg
