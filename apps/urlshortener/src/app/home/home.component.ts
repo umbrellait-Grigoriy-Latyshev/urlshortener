@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ShortenService } from '../shorten.service';
 import isURL from 'validator/lib/isURL';
+import { Location } from '@angular/common';
 
 import {
   AbstractControl,
@@ -12,6 +13,7 @@ import {
 import { Validators } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
 import { filter, mergeMap, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'evolving-home',
@@ -38,7 +40,9 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private shortService: ShortenService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private router: Router,
+    private _location: Location,
   ) { }
 
   ngOnInit(): void {
@@ -67,16 +71,19 @@ export class HomeComponent implements OnInit {
   }
 
   getShortU(): string {
-    if (!this.formGroup.get('shorturl')?.value) return '';
-    return this.getUrlFromShort(this.formGroup.get('shorturl')?.value);
+    const url = this._location.prepareExternalUrl(this.router.serializeUrl(
+      this.router.createUrlTree(this.getShortRoute())
+    ));
+    return [this.document.location.origin, url].join("/");
+  }
+
+  getShortRoute(): string[] {
+    if (!this.formGroup.get('shorturl')?.value) return ["/"];
+    return ["r", this.formGroup.get('shorturl')?.value];
   }
 
   isToggled(): boolean {
     return this.formGroup.get('toggle')?.value;
-  }
-
-  getUrlFromShort(short: string): string {
-    return `${this.document.location.origin}/r/${short}`;
   }
 
   shortify(): void {
